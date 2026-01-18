@@ -1,4 +1,4 @@
-# Playground Final Project (Django) — Blog de Páginas
+# Proyecto Final (Django) — Blog de Páginas
 
 Aplicación web estilo blog hecha con **Django** que incluye:
 - Home, About (/about/), Pages (/pages/)
