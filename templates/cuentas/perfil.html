@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block titulo %}Perfil | Cuentas{% endblock %}
+{% block contenido %}
+  <div class="tarjeta">
+    <h1>Mi perfil</h1>
+    <div class="grid">
+      <div class="tarjeta">
+        <h3>Datos del usuario</h3>
+        <p><strong>Usuario:</strong> {{ user.username }}</p>
+        <p><strong>Nombre:</strong> {{ user.first_name|default:"—" }}</p>
+        <p><strong>Apellido:</strong> {{ user.last_name|default:"—" }}</p>
+        <p><strong>Email:</strong> {{ user.email|default:"—" }}</p>
+        <p>
+          <a class="boton" href="{% url 'cuentas:editar_usuario' %}">Editar datos</a>
+          <a class="boton secundario" href="{% url 'cuentas:cambiar_password' %}">Cambiar contraseña</a>
+        </p>
+      </div>
+
+      <div class="tarjeta">
+        <h3>Perfil</h3>
+        {% if user.perfil.avatar %}
+          <p><img class="responsiva" src="{{ user.perfil.avatar.url }}" alt="Avatar"></p>
+        {% else %}
+          <p class="ayuda">Sin avatar todavía.</p>
+        {% endif %}
+        <p><strong>Biografía:</strong><br>{{ user.perfil.biografia|default:"—" }}</p>
+        <p><strong>Fecha de nacimiento:</strong> {{ user.perfil.fecha_nacimiento|date:"d/m/Y"|default:"—" }}</p>
+        <p><a class="boton" href="{% url 'cuentas:editar_perfil' %}">Editar perfil</a></p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

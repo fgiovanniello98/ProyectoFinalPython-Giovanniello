@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block titulo %}Pages | Mi Blog{% endblock %}
+{% block contenido %}
+  <div class="tarjeta">
+    <h1>Pages</h1>
+    <form method="get" style="margin: 10px 0;">
+      <div class="campo">
+        <label class="etiqueta">Buscar</label>
+        <input type="text" name="q" value="{{ q }}" placeholder="Buscar por título, autor o contenido...">
+      </div>
+      <button class="boton" type="submit">Buscar</button>
+      {% if q %}
+        <a class="boton secundario" href="{% url 'paginas:listado' %}">Limpiar</a>
+      {% endif %}
+      {% if user.is_authenticated %}
+        <a class="boton" style="margin-left:10px;" href="{% url 'paginas:crear' %}">Crear page</a>
+      {% endif %}
+    </form>
+  </div>
+
+  {% if paginas %}
+    <div class="grid">
+      {% for p in paginas %}
+        <article class="tarjeta">
+          <h3>{{ p.titulo }}</h3>
+          <p class="ayuda">{{ p.subtitulo }}</p>
+          <p class="ayuda">Por <strong>{{ p.autor.username }}</strong> · {{ p.fecha_publicacion|date:"d/m/Y H:i" }}</p>
+          <p>
+            <a class="boton" href="{{ p.get_absolute_url }}">Leer más</a>
+            {% if user.is_authenticated and p.autor == user %}
+              <a class="boton secundario" href="{% url 'paginas:editar' p.slug %}">Editar</a>
+              <a class="boton peligro" href="{% url 'paginas:borrar' p.slug %}">Borrar</a>
+            {% endif %}
+          </p>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="tarjeta">
+      <h3>No hay páginas aún</h3>
+      <p class="ayuda">
+        {% if q %}
+          No se encontraron resultados para “{{ q }}”.
+        {% else %}
+          Todavía no se creó ninguna página.
+        {% endif %}
+      </p>
+    </div>
+  {% endif %}
+
+  {% if is_paginated %}
+    <div class="tarjeta">
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+        {% if page_obj.has_previous %}
+          <a class="pildora" href="?q={{ q }}&page={{ page_obj.previous_page_number }}">Anterior</a>
+        {% endif %}
+        <span class="ayuda">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+          <a class="pildora" href="?q={{ q }}&page={{ page_obj.next_page_number }}">Siguiente</a>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

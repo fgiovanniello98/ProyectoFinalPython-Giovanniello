@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block titulo %}Home | Mi Blog{% endblock %}
+{% block contenido %}
+  <div class="tarjeta">
+    <h1>Bienvenido/a</h1>
+    <p class="ayuda">
+      Bienvenido/a a mi espacio 😊 Acá voy a ir publicando páginas con contenido, imágenes y algunas ideas del camino que estoy haciendo
+      en programación. Si te registrás, también podés armar tu perfil y mandarle mensajes a otros usuarios.
+    </p>
+    <p>
+      <a class="boton" href="{% url 'paginas:listado' %}">Ver Páginas</a>
+      <a class="boton secundario" href="{% url 'about' %}">Acerca de mí</a>
+    </p>
+  </div>
+
+  <div class="grid">
+    <div class="tarjeta">
+      <h3>¿Qué hay acá?</h3>
+      <ul>
+        <li>Listado de páginas con “Leer más”</li>
+        <li>Detalle con contenido enriquecido (CKEditor)</li>
+        <li>CRUD con permisos (solo logueado)</li>
+      </ul>
+    </div>
+    <div class="tarjeta">
+      <h3>Usuarios</h3>
+      <ul>
+        <li>Registro / Login / Logout</li>
+        <li>Perfil con avatar y biografía</li>
+        <li>Mensajería entre usuarios</li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

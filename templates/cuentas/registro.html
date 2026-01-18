@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block titulo %}Signup | Cuentas{% endblock %}
+{% block contenido %}
+  <div class="tarjeta" style="max-width:620px;">
+    <h1>Crear cuenta</h1>
+    <form method="post">
+      {% csrf_token %}
+      {% for campo in form %}
+        <div class="campo">
+          <label>{{ campo.label }}</label>
+          {{ campo }}
+          {% if campo.help_text %}<div class="ayuda">{{ campo.help_text|safe }}</div>{% endif %}
+          {% for error in campo.errors %}<div class="mensaje error">{{ error }}</div>{% endfor %}
+        </div>
+      {% endfor %}
+      {% if form.non_field_errors %}
+        {% for e in form.non_field_errors %}<div class="mensaje error">{{ e }}</div>{% endfor %}
+      {% endif %}
+      <button class="boton" type="submit">Registrarme</button>
+      <a class="boton secundario" href="{% url 'home' %}">Volver</a>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% load static %}
+<!doctype html>
+<html lang="es-ar">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Mi Blog - Franco Giovanniello{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="contenedor">
+      <div>
+        <a href="{% url 'home' %}"><strong>Mi Blog - Franco Giovanniello</strong></a>
+      </div>
+      <div class="navlinks">
+        <a href="{% url 'about' %}">Acerca de mí</a>
+        <a href="{% url 'paginas:listado' %}">Páginas</a>
+        <a href="{% url 'mensajeria:inbox' %}">Mensajes</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'cuentas:perfil' %}">Perfil</a>
+          <form action="{% url 'cuentas:logout' %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button class="pildora" type="submit">Cerrar sesión</button>
+          </form>
+        {% else %}
+          <a class="pildora" href="{% url 'cuentas:login' %}">Iniciar sesión</a>
+          <a class="pildora" href="{% url 'cuentas:registro' %}">Registrarse</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <main class="contenedor">
+    {% if messages %}
+      <div class="mensajes">
+        {% for m in messages %}
+          <div class="mensaje {% if m.tags %}{{ m.tags }}{% endif %}">{{ m }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% block contenido %}{% endblock %}
+  </main>
+</body>
+</html>

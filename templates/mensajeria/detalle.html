@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block titulo %}Detalle | Mensajes{% endblock %}
+{% block contenido %}
+  <div class="tarjeta">
+    <p class="ayuda">
+      {% if mensaje.destinatario == user %}
+        De <strong>{{ mensaje.remitente.username }}</strong>
+      {% else %}
+        Para <strong>{{ mensaje.destinatario.username }}</strong>
+      {% endif %}
+      · {{ mensaje.fecha_envio|date:"d/m/Y H:i" }}
+    </p>
+    <h1 style="margin-top:6px;">{{ mensaje.asunto }}</h1>
+    <p style="white-space:pre-wrap;">{{ mensaje.cuerpo }}</p>
+
+    <p style="margin-top:14px;">
+      <a class="boton secundario" href="{% url 'mensajeria:inbox' %}">Volver</a>
+
+      {% if mensaje.destinatario == user and not mensaje.leido %}
+        <form action="{% url 'mensajeria:leido' mensaje.pk %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button class="boton" type="submit">Marcar como leído</button>
+        </form>
+      {% endif %}
+    </p>
+  </div>
+{% endblock %}

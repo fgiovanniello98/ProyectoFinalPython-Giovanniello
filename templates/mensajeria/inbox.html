@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block titulo %}Mensajes | Inbox{% endblock %}
+{% block contenido %}
+  <div class="tarjeta">
+    <h1>Bandeja de entrada</h1>
+    <p>
+      <a class="boton" href="{% url 'mensajeria:nuevo' %}">Nuevo mensaje</a>
+      <a class="boton secundario" href="{% url 'mensajeria:enviados' %}">Ver enviados</a>
+    </p>
+  </div>
+
+  {% if mensajes %}
+    {% for m in mensajes %}
+      <div class="tarjeta">
+        <p class="ayuda">
+          De <strong>{{ m.remitente.username }}</strong> · {{ m.fecha_envio|date:"d/m/Y H:i" }}
+          {% if not m.leido %}<span class="pildora" style="margin-left:8px;">Nuevo</span>{% endif %}
+        </p>
+        <h3 style="margin-top:6px;">{{ m.asunto }}</h3>
+        <p class="ayuda">{{ m.cuerpo|truncatechars:130 }}</p>
+        <a class="boton" href="{% url 'mensajeria:detalle' m.pk %}">Abrir</a>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="tarjeta">
+      <h3>No hay mensajes aún</h3>
+      <p class="ayuda">Cuando alguien te escriba, van a aparecer acá.</p>
+    </div>
+  {% endif %}
+{% endblock %}

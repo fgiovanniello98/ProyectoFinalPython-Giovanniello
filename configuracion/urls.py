@@ -1,0 +1,22 @@
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
+from paginas.views import vista_home, vista_about
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+
+    path("", vista_home, name="home"),
+    path("about/", vista_about, name="about"),
+
+    path("pages/", include("paginas.urls")),
+    path("cuentas/", include("cuentas.urls")),
+    path("mensajes/", include("mensajeria.urls")),
+
+    path("ckeditor/", include("ckeditor_uploader.urls")),
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
